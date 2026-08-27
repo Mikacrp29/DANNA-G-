@@ -13,13 +13,14 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Longueur de scroll (en multiples de la hauteur d'écran) allouée à
 // l'ensemble des 4 photos à l'intérieur de la scène épinglée.
-const PIN_SCREENS = 4.2;
+// ⚠️ Valeur clé si les transitions demandent "trop de scroll" : diminue-la.
+const PIN_SCREENS = 2.6;
 
 // Fenêtre [start, end] de progression globale (0 → 1) occupée par chaque
 // photo. Le chevauchement entre deux fenêtres consécutives crée l'effet de
 // "composition qui se transforme" plutôt qu'un simple enchaînement de pages.
-const WINDOW_WIDTH = 0.32;
-const WINDOW_STEP = 0.225;
+const WINDOW_WIDTH = 0.34;
+const WINDOW_STEP = 0.22;
 
 type SceneVariant = 'horizontal-rl' | 'horizontal-lr' | 'vertical-zoom' | 'final';
 
@@ -73,9 +74,11 @@ function clamp01(v: number) {
   return Math.min(1, Math.max(0, v));
 }
 
-// enter (0 → 0.4) / hold (0.4 → 0.72) / exit (0.72 → 1) au sein d'une fenêtre.
-const ENTER_END = 0.4;
-const EXIT_START = 0.72;
+// enter (0 → 0.38) / hold (0.38 → 0.64) / exit (0.64 → 1) au sein d'une
+// fenêtre. Le palier "hold" est volontairement court pour que le scroll
+// reste toujours en train de faire progresser visuellement la photo.
+const ENTER_END = 0.38;
+const EXIT_START = 0.64;
 
 function easeOutCubic(t: number) {
   return 1 - Math.pow(1 - t, 3);
