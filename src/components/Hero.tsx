@@ -8,7 +8,6 @@ import { site } from "../config/site";
  */
 export const Hero = forwardRef<HTMLElement>(function Hero(_props, ref) {
   const [entered, setEntered] = useState(false);
-  const teaser = site.photos[0];
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setEntered(true));
@@ -19,25 +18,9 @@ export const Hero = forwardRef<HTMLElement>(function Hero(_props, ref) {
     <section
       ref={ref}
       id="hero"
-      className="scene relative flex flex-col justify-between overflow-hidden bg-paper md:flex-row"
+      className="scene relative flex flex-col justify-between overflow-hidden bg-paper"
     >
-      {/* Teaser sliver of the first photo */}
-      <div className="absolute inset-x-0 bottom-0 h-[30vh] w-full opacity-90 md:inset-y-0 md:left-auto md:right-0 md:h-full md:w-[34vw]">
-        <img
-          src={teaser.src}
-          alt={teaser.alt}
-          className="h-full w-full object-cover"
-          style={{
-            maskImage:
-              "linear-gradient(to top, black 55%, transparent 100%)",
-            WebkitMaskImage:
-              "linear-gradient(to top, black 55%, transparent 100%)",
-          }}
-        />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-paper via-transparent to-transparent md:bg-gradient-to-r" />
-      </div>
-
-      <div className="relative z-10 flex flex-1 flex-col justify-center px-5 pt-8 md:px-16 md:pt-28">
+      <div className="relative z-10 flex flex-1 flex-col justify-start px-5 pt-[24vh] md:justify-center md:px-16 md:pt-0">
         <div
           className={`max-w-md transition-all duration-[1100ms] ease-editorial ${
             entered
@@ -47,19 +30,19 @@ export const Hero = forwardRef<HTMLElement>(function Hero(_props, ref) {
         >
           {/* Logo + name */}
           <div className="flex items-center gap-3 sm:gap-6 md:gap-10">
-  <img
-    src={site.logo}
-    alt={site.name}
-    className="h-auto w-[105px] sm:w-[180px] md:w-[min(42vw,340px)]"
-  />
+            <img
+              src={site.logo}
+              alt={site.name}
+              className="h-auto w-[120px] sm:w-[200px] md:w-[min(46vw,380px)] lg:w-[420px]"
+            />
 
-  <span className="whitespace-nowrap font-serif text-2xl tracking-[0.06em] text-[#161513] sm:text-4xl md:text-6xl lg:text-7xl">
-    DANNA G
-  </span>
-</div>
+            <span className="whitespace-nowrap font-serif text-3xl tracking-[0.06em] text-[#161513] sm:text-5xl md:text-7xl lg:text-8xl">
+              DANNA G
+            </span>
+          </div>
 
           {/* Tagline */}
-          <p className="mt-6 font-sans text-[11px] tracking-widest text-ash">
+          <p className="mt-8 font-sans text-[11px] tracking-widest text-ash md:mt-10">
             {site.tagline}
           </p>
         </div>
