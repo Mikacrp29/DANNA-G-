@@ -37,7 +37,7 @@ export const Hero = forwardRef<HTMLElement>(function Hero(_props, ref) {
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-paper via-transparent to-transparent md:bg-gradient-to-r" />
       </div>
 
-      <div className="relative z-10 flex flex-1 flex-col justify-center px-5 pt-24 md:px-16 md:pt-28
+      <div className="relative z-10 flex flex-1 flex-col justify-center px-5 pt-24 md:px-16 md:pt-28">
         <div
           className={`max-w-md transition-all duration-[1100ms] ease-editorial ${
             entered
@@ -47,16 +47,16 @@ export const Hero = forwardRef<HTMLElement>(function Hero(_props, ref) {
         >
           {/* Logo + name */}
           <div className="flex items-center gap-3 sm:gap-6 md:gap-8">
-  <img
-    src={site.logo}
-    alt={site.name}
-    className="h-auto w-[110px] sm:w-[170px] md:w-[min(38vw,280px)]"
-  />
+            <img
+              src={site.logo}
+              alt={site.name}
+              className="h-auto w-[110px] sm:w-[170px] md:w-[min(38vw,280px)]"
+            />
 
-  <span className="whitespace-nowrap font-serif text-2xl tracking-[0.06em] text-[#161513] sm:text-4xl md:text-5xl">
-    DANNA G
-  </span>
-</div>
+            <span className="whitespace-nowrap font-serif text-2xl tracking-[0.06em] text-[#161513] sm:text-4xl md:text-5xl">
+              DANNA G
+            </span>
+          </div>
 
           {/* Tagline */}
           <p className="mt-6 font-sans text-[11px] tracking-widest text-ash">
