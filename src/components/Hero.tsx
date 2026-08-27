@@ -60,15 +60,17 @@ export const Hero = forwardRef<HTMLElement>(function Hero(_props, ref) {
       </div>
 
       {/* Scroll hint */}
-      <div
-        className={`absolute bottom-8 left-6 z-10 flex items-center gap-2 text-[10px] tracking-widest text-ash transition-opacity duration-1000 ease-editorial md:left-16 ${
-          entered ? "opacity-100" : "opacity-0"
-        }`}
-        aria-hidden="true"
-      >
-        <span>{site.scrollHint}</span>
-        <span className="inline-block animate-bounce">↓</span>
-      </div>
+<div
+  className={`absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 text-[11px] tracking-[0.22em] text-ash transition-opacity duration-1000 ease-editorial md:text-[12px] ${
+    entered ? "opacity-100" : "opacity-0"
+  }`}
+  aria-hidden="true"
+>
+  <span>{site.scrollHint}</span>
+  <span className="inline-block animate-bounce text-[13px] md:text-[14px]">
+    ↓
+  </span>
+</div>
     </section>
   );
 });
