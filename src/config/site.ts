@@ -33,25 +33,25 @@ export const site = {
   photos: [
     {
       id: "01",
-      src: "/images/danna-01.jpg",
+      src: "/images/danna-03.jpg",
       alt: "DANNA G — portrait 01",
       label: "PORTRAIT",
     },
     {
       id: "02",
-      src: "/images/danna-02.jpg",
+      src: "/images/danna-04.jpg",
       alt: "DANNA G — portrait 02",
       label: "EDITORIAL",
     },
     {
       id: "03",
-      src: "/images/danna-03.jpg",
+      src: "/images/danna-02.jpg",
       alt: "DANNA G — portrait 03",
       label: "MOVEMENT",
     },
     {
       id: "04",
-      src: "/images/danna-04.jpg",
+      src: "/images/danna-01.jpg",
       alt: "DANNA G — portrait 04",
       label: "FORM",
     },
