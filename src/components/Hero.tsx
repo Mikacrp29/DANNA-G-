@@ -47,16 +47,21 @@ export const Hero = forwardRef<HTMLElement>(function Hero(_props, ref) {
             entered ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
           }`}
         >
-          <img
-            src={site.logo}
-            alt={site.name}
-            className="h-auto w-[min(72vw,340px)]"
-          />
-          <p className="mt-6 font-sans text-[11px] tracking-widest text-ash">
-            {site.tagline}
-          </p>
-        </div>
-      </div>
+          <div className="flex items-center gap-8">
+  <img
+    src={site.logo}
+    alt={site.name}
+    className="h-auto w-[min(38vw,280px)]"
+  />
+
+  <span className="font-serif text-5xl tracking-[0.08em] text-[#161513] whitespace-nowrap">
+    DANNA G
+  </span>
+</div>
+
+<p className="mt-6 font-sans text-[11px] tracking-widest text-ash">
+  {site.tagline}
+</p>
 
       <div
         className={`absolute bottom-8 left-6 z-10 flex items-center gap-2 text-[10px] tracking-widest text-ash transition-opacity duration-1000 ease-editorial md:left-16 ${
