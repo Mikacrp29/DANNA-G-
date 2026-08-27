@@ -20,6 +20,17 @@ export const Hero = forwardRef<HTMLElement>(function Hero(_props, ref) {
       id="hero"
       className="scene relative flex flex-col justify-between overflow-hidden bg-paper"
     >
+            {/* Logo géant en filigrane, ton sur ton */}
+      <img
+        src={site.logo}
+        alt=""
+        aria-hidden="true"
+        className={`pointer-events-none absolute left-1/2 top-1/2 z-0 w-[140vw] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-[0.04] grayscale transition-opacity duration-[1800ms] ease-editorial md:w-[75vw] ${
+          entered ? "opacity-[0.04]" : "opacity-0"
+        }`}
+      />
+
+      <div className="relative z-10 flex flex-1 flex-col justify-start px-5 pt-[24vh] md:justify-center md:px-16 md:pt-0">
       <div className="relative z-10 flex flex-1 flex-col justify-start px-5 pt-[24vh] md:justify-center md:px-16 md:pt-0">
         <div
           className={`max-w-md transition-all duration-[1100ms] ease-editorial ${
