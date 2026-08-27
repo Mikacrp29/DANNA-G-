@@ -1,70 +1,44 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { site } from '../config/site';
+import { forwardRef } from "react";
+import { site } from "../config/site";
+import { useInView } from "../hooks/useInView";
 
-gsap.registerPlugin(ScrollTrigger);
-
-export default function Contact() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const groupRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        groupRef.current,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-          },
-        }
-      );
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
+export const Contact = forwardRef<HTMLElement>(function Contact(_props, ref) {
+  const { ref: innerRef, inView } = useInView<HTMLDivElement>(0.5);
 
   return (
     <section
+      ref={ref}
       id="contact"
-      ref={sectionRef}
-      className="relative min-h-[90svh] w-full bg-bone flex items-center justify-center px-6 py-32"
+      className="scene flex items-center justify-center bg-paper"
     >
-      <div ref={groupRef} className="flex flex-col items-center text-center gap-10 md:gap-12">
-        <h2 className="font-display font-normal text-ink leading-[0.95] text-[11vw] sm:text-[8vw] md:text-[5.5vw]">
-          {site.contact.heading}
-          <br />
-          {site.contact.headingLine2}
+      <div
+        ref={innerRef}
+        className={`flex flex-col items-center gap-8 px-6 text-center transition-all duration-[900ms] ease-editorial ${
+          inView ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+        }`}
+      >
+        <h2 className="font-display text-3xl italic text-ink md:text-5xl">
+          {site.closing.heading}
         </h2>
 
-        <div className="flex flex-col items-center gap-4">
-          <span className="text-[11px] tracking-[0.35em] text-clay">{site.name}</span>
+        <div className="mt-2 flex flex-col items-center gap-3 font-sans text-[11px] tracking-widest text-ash">
+          <span className="text-ink">{site.name}</span>
           <a
             href={`mailto:${site.email}`}
-            className="text-sm md:text-base tracking-wide text-ink border-b border-ink/20 pb-1 hover:border-ink/70 transition-colors duration-500"
+            className="transition-colors duration-300 hover:text-ink"
           >
             {site.email}
           </a>
+          <a
+            href={site.instagram.url}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="transition-colors duration-300 hover:text-ink"
+          >
+            INSTAGRAM
+          </a>
         </div>
-
-        <a
-          href={site.instagram.url}
-          target="_blank"
-          rel="noreferrer"
-          className="text-[11px] tracking-[0.4em] text-ink/60 hover:text-ink transition-colors duration-500"
-        >
-          INSTAGRAM
-        </a>
       </div>
-
-      <footer className="absolute bottom-6 left-0 right-0 flex justify-center">
-        <span className="text-[9px] tracking-[0.3em] text-ink/25">{site.instagram.handle}</span>
-      </footer>
     </section>
   );
-}
+});

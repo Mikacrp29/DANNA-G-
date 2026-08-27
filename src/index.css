@@ -1,43 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Space+Grotesk:wght@400;500&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   * {
-    box-sizing: border-box;
+    @apply border-hairline;
   }
 
-  html {
-    background: #f2efe9;
-    scroll-behavior: auto;
+  html,
+  body,
+  #root {
+    height: 100%;
   }
 
   body {
-    margin: 0;
-    background-color: #f2efe9;
-    color: #161513;
-    font-family: 'Inter', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    @apply bg-paper text-ink font-sans antialiased;
   }
 
-  ::selection {
-    background: #161513;
-    color: #f2efe9;
+  a {
+    @apply outline-offset-4;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    @apply outline outline-2 outline-nude;
   }
 }
 
 @layer utilities {
-  .font-display {
-    font-family: 'Fraunces', serif;
+  /* Scroll-snap container: the ONLY element that owns page scroll.
+     Native scroll-snap gives us fast, reliable, GPU-friendly section
+     changes on a small scroll or swipe — no JS scroll hijacking. */
+  .scene-container {
+    height: 100dvh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .scene {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    height: 100dvh;
   }
 }
 
+/* Respect reduced-motion: kill transform choreography, keep a fast
+   opacity fade so content still appears/disappears cleanly. */
 @media (prefers-reduced-motion: reduce) {
+  .scene-container {
+    scroll-behavior: auto;
+  }
+
   * {
-    animation-duration: 0.001ms !important;
+    transition-duration: 120ms !important;
+    animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
   }
 }

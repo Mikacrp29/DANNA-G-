@@ -1,20 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{ts,tsx}'],
+  content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        bone: '#F2EFE9',
-        ink: '#161513',
-        clay: '#8A7A68',
-        hair: '#C9C2B4',
+        paper: "#EFEDE6",
+        ink: "#16140F",
+        ash: "#6B665C",
+        hairline: "#D6D0C3",
+        nude: "#A9827A",
       },
       fontFamily: {
-        display: ['"Fraunces"', 'serif'],
-        sans: ['"Neue Haas Grotesk Text Pro"', '"Inter"', 'sans-serif'],
+        display: ["\"Fraunces\"", "serif"],
+        sans: ["\"Space Grotesk\"", "sans-serif"],
+      },
+      transitionTimingFunction: {
+        editorial: "cubic-bezier(0.22, 1, 0.36, 1)",
       },
       letterSpacing: {
-        widest2: '0.35em',
+        widest: "0.32em",
       },
     },
   },
