@@ -15,28 +15,24 @@ const variants: Record
   SceneVariant,
   { out: string; in: string; clip?: { out: string; in: string } }
 > = {
-  // 01 — approche + léger drift horizontal
   1: {
-    out: "opacity-0 -translate-x-6 scale-90 blur-sm",
+    out: "opacity-0 -translate-x-6 scale-75 blur-md",
     in: "opacity-100 translate-x-0 scale-100 blur-none",
   },
-  // 02 — approche depuis le côté opposé
   2: {
-    out: "opacity-0 translate-x-8 scale-90 blur-sm",
+    out: "opacity-0 translate-x-8 scale-75 blur-md",
     in: "opacity-100 translate-x-0 scale-100 blur-none",
   },
-  // 03 — approche verticale + crop progressif (clip-path)
   3: {
-    out: "opacity-0 translate-y-10 scale-90 blur-sm",
+    out: "opacity-0 translate-y-10 scale-75 blur-md",
     in: "opacity-100 translate-y-0 scale-100 blur-none",
     clip: {
       out: "inset(12% 8% 12% 8%)",
       in: "inset(0% 0% 0% 0%)",
     },
   },
-  // 04 — plan final : la plus forte approche, du plus loin au plus net
   4: {
-    out: "opacity-0 translate-x-0 scale-90 blur-sm",
+    out: "opacity-0 translate-x-0 scale-75 blur-md",
     in: "opacity-100 translate-x-0 scale-100 blur-none",
   },
 };
@@ -69,8 +65,8 @@ function Scene({ photo, index }: { photo: Photo; index: number }) {
         ref={ref}
         className={`relative flex w-full items-center px-6 md:px-16 ${align}`}
       >
-         <figure
-          className={`relative z-20 w-full max-w-xl overflow-hidden transition-all duration-[900ms] ease-editorial will-change-transform ${
+                 <figure
+          className={`relative z-20 w-full max-w-xl overflow-hidden transition-all duration-[1400ms] ease-editorial will-change-transform ${
             inView ? config.in : config.out
           }`}
           style={clipStyle}
@@ -84,6 +80,16 @@ function Scene({ photo, index }: { photo: Photo; index: number }) {
               animation:
                 inView && !reducedMotion
                   ? "walk-subtle 1400ms cubic-bezier(0.22, 1, 0.36, 1)"
+                  : "none",
+            }}
+          />
+                    <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-white"
+            style={{
+              animation:
+                inView && !reducedMotion
+                  ? "flash-photo 260ms ease-out 950ms forwards"
                   : "none",
             }}
           />
