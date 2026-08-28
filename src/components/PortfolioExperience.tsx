@@ -83,13 +83,13 @@ function Scene({ photo, index }: { photo: Photo; index: number }) {
                   : "none",
             }}
           />
-                    <div
+                            <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-white"
+            className="pointer-events-none absolute inset-0 bg-white opacity-0"
             style={{
               animation:
                 inView && !reducedMotion
-                  ? "flash-photo 60ms ease-out 950ms forwards"
+                  ? "flash-photo 80ms ease-out 950ms forwards"
                   : "none",
             }}
           />
