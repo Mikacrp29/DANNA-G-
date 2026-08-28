@@ -11,7 +11,7 @@ type SceneVariant = 1 | 2 | 3 | 4;
  * toggled by a boolean, the transition always runs identically forward
  * and backward — there's no direction-dependent logic to get wrong.
  */
-const variants: Record
+const variants: Record<
   SceneVariant,
   { out: string; in: string; clip?: { out: string; in: string } }
 > = {
