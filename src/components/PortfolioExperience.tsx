@@ -89,7 +89,7 @@ function Scene({ photo, index }: { photo: Photo; index: number }) {
             style={{
               animation:
                 inView && !reducedMotion
-                  ? "flash-photo 80ms ease-out 950ms forwards"
+                  ? "flash-photo 120s ease-out 950ms forwards"
                   : "none",
             }}
           />
