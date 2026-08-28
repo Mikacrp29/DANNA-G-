@@ -30,30 +30,30 @@ export const site = {
   // Replace these four files in /public/images with the final photos.
   // Order defines the scroll sequence (01 → 04). Filenames can be
   // changed freely as long as this list is updated to match.
-  photos: [
+    photos: [
     {
       id: "01",
       src: "/images/danna-03.jpg",
       alt: "DANNA G — portrait 01",
-      label: "PORTRAIT",
+      label: "LOOK 01",
     },
     {
       id: "02",
       src: "/images/danna-04.jpg",
       alt: "DANNA G — portrait 02",
-      label: "EDITORIAL",
+      label: "LOOK 02",
     },
     {
       id: "03",
       src: "/images/danna-02.jpg",
       alt: "DANNA G — portrait 03",
-      label: "MOVEMENT",
+      label: "LOOK 03",
     },
     {
       id: "04",
       src: "/images/danna-01.jpg",
       alt: "DANNA G — portrait 04",
-      label: "FORM",
+      label: "LOOK 04",
     },
   ] satisfies Photo[],
 };

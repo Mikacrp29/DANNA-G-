@@ -56,6 +56,10 @@ function Scene({ photo, index }: { photo: Photo; index: number }) {
   const align =
     variant === 2 || variant === 4 ? "md:justify-end" : "md:justify-start";
 
+      const reducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   return (
     <section
       id={`plate-${photo.id}`}
@@ -65,17 +69,23 @@ function Scene({ photo, index }: { photo: Photo; index: number }) {
         ref={ref}
         className={`relative flex w-full items-center px-6 md:px-16 ${align}`}
       >
-        <figure
-          className={`relative w-full max-w-xl overflow-hidden transition-all duration-[900ms] ease-editorial will-change-transform ${
+         <figure
+          className={`relative z-20 w-full max-w-xl overflow-hidden transition-all duration-[900ms] ease-editorial will-change-transform ${
             inView ? config.in : config.out
           }`}
           style={clipStyle}
         >
-          <img
+                    <img
             src={photo.src}
             alt={photo.alt}
             className="h-[62vh] w-full object-cover md:h-[78vh]"
             loading="lazy"
+            style={{
+              animation:
+                inView && !reducedMotion
+                  ? "walk-subtle 1400ms cubic-bezier(0.22, 1, 0.36, 1)"
+                  : "none",
+            }}
           />
           <figcaption
             className={`mt-4 flex items-baseline justify-between font-sans text-[11px] tracking-widest text-ash transition-opacity duration-700 ease-editorial ${
@@ -95,10 +105,15 @@ function Scene({ photo, index }: { photo: Photo; index: number }) {
 
 export function PortfolioExperience() {
   return (
-    <>
+    <div className="relative">
+      {/* Ligne de podium — repère fixe, présent sur les 4 scènes */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none sticky top-[62vh] z-10 h-px w-full bg-hairline/70"
+      />
       {site.photos.map((photo, index) => (
         <Scene key={photo.id} photo={photo} index={index} />
       ))}
-    </>
+    </div>
   );
 }
