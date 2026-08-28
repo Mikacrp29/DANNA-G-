@@ -11,33 +11,33 @@ type SceneVariant = 1 | 2 | 3 | 4;
  * toggled by a boolean, the transition always runs identically forward
  * and backward — there's no direction-dependent logic to get wrong.
  */
-const variants: Record<
+const variants: Record
   SceneVariant,
   { out: string; in: string; clip?: { out: string; in: string } }
 > = {
-  // 01 — soft appearance + gentle horizontal drift
+  // 01 — approche + léger drift horizontal
   1: {
-    out: "opacity-0 -translate-x-6 scale-100",
-    in: "opacity-100 translate-x-0 scale-100",
+    out: "opacity-0 -translate-x-6 scale-90 blur-sm",
+    in: "opacity-100 translate-x-0 scale-100 blur-none",
   },
-  // 02 — arrives from the opposite side + slight zoom
+  // 02 — approche depuis le côté opposé
   2: {
-    out: "opacity-0 translate-x-8 scale-95",
-    in: "opacity-100 translate-x-0 scale-100",
+    out: "opacity-0 translate-x-8 scale-90 blur-sm",
+    in: "opacity-100 translate-x-0 scale-100 blur-none",
   },
-  // 03 — vertical movement + progressive crop (clip-path)
+  // 03 — approche verticale + crop progressif (clip-path)
   3: {
-    out: "opacity-0 translate-y-10 scale-100",
-    in: "opacity-100 translate-y-0 scale-100",
+    out: "opacity-0 translate-y-10 scale-90 blur-sm",
+    in: "opacity-100 translate-y-0 scale-100 blur-none",
     clip: {
       out: "inset(12% 8% 12% 8%)",
       in: "inset(0% 0% 0% 0%)",
     },
   },
-  // 04 — large final image, only a light zoom
+  // 04 — plan final : la plus forte approche, du plus loin au plus net
   4: {
-    out: "opacity-0 translate-x-0 scale-105",
-    in: "opacity-100 translate-x-0 scale-100",
+    out: "opacity-0 translate-x-0 scale-90 blur-sm",
+    in: "opacity-100 translate-x-0 scale-100 blur-none",
   },
 };
 
