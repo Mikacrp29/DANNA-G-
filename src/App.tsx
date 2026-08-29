@@ -5,15 +5,18 @@ import { PortfolioExperience } from "./components/PortfolioExperience";
 import { Contact } from "./components/Contact";
 import { useInView } from "./hooks/useInView";
 
-const NUDGE_RATIO = 0.22; // proportion de la hauteur d'écran révélée
-const NUDGE_OUT_MS = 550;
-const NUDGE_BACK_MS = 550;
+const NUDGE_RATIO = 0.22;
+const NUDGE_DURATION_MS = 900; // durée totale de l'aller-retour, en une seule animation continue
+
+function easeInOutSine(t: number) {
+  return -(Math.cos(Math.PI * t) - 1) / 2;
+}
 
 export default function App() {
   const { ref: heroRef, inView: heroInView } = useInView<HTMLElement>(0.4);
   const mainRef = useRef<HTMLElement>(null);
 
-    useEffect(() => {
+      useEffect(() => {
     const main = mainRef.current;
     if (!main) return;
 
@@ -23,24 +26,38 @@ export default function App() {
     if (reducedMotion) return;
 
     let idleTimer: ReturnType<typeof setTimeout>;
-    let backTimer: ReturnType<typeof setTimeout>;
-    let restoreTimer: ReturnType<typeof setTimeout>;
+    let rafId: number | null = null;
     let isNudging = false;
 
-      const playNudge = () => {
+    const playNudge = () => {
       const start = main.scrollTop;
       const amount = main.clientHeight * NUDGE_RATIO;
       isNudging = true;
       main.style.scrollSnapType = "none";
 
-      main.scrollTo({ top: start + amount, behavior: "smooth" });
-      backTimer = setTimeout(() => {
-        main.scrollTo({ top: start, behavior: "smooth" });
-        restoreTimer = setTimeout(() => {
+      const startTime = performance.now();
+
+      const step = (now: number) => {
+        const elapsed = now - startTime;
+        const t = Math.min(elapsed / NUDGE_DURATION_MS, 1);
+        // Un seul aller-retour continu : monte jusqu'à mi-parcours,
+        // puis redescend — sans jamais s'arrêter entre les deux.
+        const wave = Math.sin(Math.PI * t);
+        const eased = easeInOutSine(Math.min(t * 2, 1));
+        const direction = t < 0.5 ? 1 : -1;
+        main.scrollTop = start + amount * wave * (direction > 0 ? eased : eased);
+
+        if (t < 1) {
+          rafId = requestAnimationFrame(step);
+        } else {
+          main.scrollTop = start;
           main.style.scrollSnapType = "";
           isNudging = false;
-        }, NUDGE_BACK_MS);
-      }, NUDGE_OUT_MS);
+          rafId = null;
+        }
+      };
+
+      rafId = requestAnimationFrame(step);
     };
 
     const schedule = () => {
@@ -52,13 +69,7 @@ export default function App() {
     };
 
     const onActivity = () => {
-      // Ignore scroll events caused by our own programmatic nudge —
-      // only a real user action should cancel/reschedule it.
       if (isNudging) return;
-
-      clearTimeout(backTimer);
-      clearTimeout(restoreTimer);
-      main.style.scrollSnapType = "";
       schedule();
     };
 
@@ -70,8 +81,7 @@ export default function App() {
 
     return () => {
       clearTimeout(idleTimer);
-      clearTimeout(backTimer);
-      clearTimeout(restoreTimer);
+      if (rafId) cancelAnimationFrame(rafId);
       main.removeEventListener("scroll", onActivity);
       main.removeEventListener("wheel", onActivity);
       main.removeEventListener("touchstart", onActivity);
