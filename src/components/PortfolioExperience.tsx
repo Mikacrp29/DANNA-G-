@@ -74,7 +74,7 @@ function Scene({ photo, index }: { photo: Photo; index: number }) {
                     <img
             src={photo.src}
             alt={photo.alt}
-            className="h-[min(62vh,calc(100dvh-110px))] w-full object-cover md:h-[min(78vh,calc(100dvh-140px))]"
+            className="h-[min(62vh,calc(100dvh_-_110px))] w-full object-cover md:h-[min(78vh,calc(100dvh_-_140px))]"
             loading="lazy"
             style={{
               animation:

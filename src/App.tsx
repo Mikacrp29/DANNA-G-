@@ -5,6 +5,10 @@ import { PortfolioExperience } from "./components/PortfolioExperience";
 import { Contact } from "./components/Contact";
 import { useInView } from "./hooks/useInView";
 
+const NUDGE_AMOUNT = 56; // px révélés de la section suivante
+const NUDGE_OUT_MS = 550; // durée de l'aller
+const NUDGE_BACK_MS = 550; // durée du retour
+
 export default function App() {
   const { ref: heroRef, inView: heroInView } = useInView<HTMLElement>(0.4);
   const mainRef = useRef<HTMLElement>(null);
@@ -18,24 +22,39 @@ export default function App() {
     ).matches;
     if (reducedMotion) return;
 
-    let timer: ReturnType<typeof setTimeout>;
+    let idleTimer: ReturnType<typeof setTimeout>;
+    let restoreTimer: ReturnType<typeof setTimeout>;
+    let backTimer: ReturnType<typeof setTimeout>;
 
     const playNudge = () => {
-      main.classList.remove("animate-[peek-nudge_650ms_ease-out]");
-      // Force reflow so the animation can be re-triggered every cycle.
-      void main.offsetWidth;
-      main.classList.add("animate-[peek-nudge_650ms_ease-out]");
+      const start = main.scrollTop;
+      // Scroll-snap would otherwise cancel/resist such a small scroll,
+      // so it's switched off only for the duration of the nudge.
+      main.style.scrollSnapType = "none";
+
+      main.scrollTo({ top: start + NUDGE_AMOUNT, behavior: "smooth" });
+      backTimer = setTimeout(() => {
+        main.scrollTo({ top: start, behavior: "smooth" });
+        restoreTimer = setTimeout(() => {
+          main.style.scrollSnapType = "";
+        }, NUDGE_BACK_MS);
+      }, NUDGE_OUT_MS);
     };
 
     const schedule = () => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
         playNudge();
         schedule();
       }, 2000);
     };
 
-    const onActivity = () => schedule();
+    const onActivity = () => {
+      clearTimeout(backTimer);
+      clearTimeout(restoreTimer);
+      main.style.scrollSnapType = "";
+      schedule();
+    };
 
     schedule();
     main.addEventListener("scroll", onActivity, { passive: true });
@@ -44,7 +63,9 @@ export default function App() {
     main.addEventListener("keydown", onActivity);
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(idleTimer);
+      clearTimeout(backTimer);
+      clearTimeout(restoreTimer);
       main.removeEventListener("scroll", onActivity);
       main.removeEventListener("wheel", onActivity);
       main.removeEventListener("touchstart", onActivity);
