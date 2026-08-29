@@ -5,7 +5,7 @@ import { PortfolioExperience } from "./components/PortfolioExperience";
 import { Contact } from "./components/Contact";
 import { useInView } from "./hooks/useInView";
 
-const NUDGE_AMOUNT = 56; // px révélés de la section suivante
+const NUDGE_AMOUNT = 120; // px révélés de la section suivante
 const NUDGE_OUT_MS = 550; // durée de l'aller
 const NUDGE_BACK_MS = 550; // durée du retour
 
@@ -13,7 +13,7 @@ export default function App() {
   const { ref: heroRef, inView: heroInView } = useInView<HTMLElement>(0.4);
   const mainRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
+    useEffect(() => {
     const main = mainRef.current;
     if (!main) return;
 
@@ -23,13 +23,13 @@ export default function App() {
     if (reducedMotion) return;
 
     let idleTimer: ReturnType<typeof setTimeout>;
-    let restoreTimer: ReturnType<typeof setTimeout>;
     let backTimer: ReturnType<typeof setTimeout>;
+    let restoreTimer: ReturnType<typeof setTimeout>;
+    let isNudging = false;
 
     const playNudge = () => {
       const start = main.scrollTop;
-      // Scroll-snap would otherwise cancel/resist such a small scroll,
-      // so it's switched off only for the duration of the nudge.
+      isNudging = true;
       main.style.scrollSnapType = "none";
 
       main.scrollTo({ top: start + NUDGE_AMOUNT, behavior: "smooth" });
@@ -37,6 +37,7 @@ export default function App() {
         main.scrollTo({ top: start, behavior: "smooth" });
         restoreTimer = setTimeout(() => {
           main.style.scrollSnapType = "";
+          isNudging = false;
         }, NUDGE_BACK_MS);
       }, NUDGE_OUT_MS);
     };
@@ -50,6 +51,10 @@ export default function App() {
     };
 
     const onActivity = () => {
+      // Ignore scroll events caused by our own programmatic nudge —
+      // only a real user action should cancel/reschedule it.
+      if (isNudging) return;
+
       clearTimeout(backTimer);
       clearTimeout(restoreTimer);
       main.style.scrollSnapType = "";
