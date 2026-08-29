@@ -17,8 +17,8 @@ export const site = {
   ],
 
   instagram: {
-    handle: "@dannag_cri",
-    url: "https://www.instagram.com/dannag_cri/",
+    handle: "@dannag.model",
+    url: "https://www.instagram.com/dannag.model/",
   },
 
   email: "hello@dannag.com",
