@@ -5,9 +5,9 @@ import { PortfolioExperience } from "./components/PortfolioExperience";
 import { Contact } from "./components/Contact";
 import { useInView } from "./hooks/useInView";
 
-const NUDGE_AMOUNT = 120; // px révélés de la section suivante
-const NUDGE_OUT_MS = 550; // durée de l'aller
-const NUDGE_BACK_MS = 550; // durée du retour
+const NUDGE_RATIO = 0.22; // proportion de la hauteur d'écran révélée
+const NUDGE_OUT_MS = 550;
+const NUDGE_BACK_MS = 550;
 
 export default function App() {
   const { ref: heroRef, inView: heroInView } = useInView<HTMLElement>(0.4);
@@ -27,12 +27,13 @@ export default function App() {
     let restoreTimer: ReturnType<typeof setTimeout>;
     let isNudging = false;
 
-    const playNudge = () => {
+      const playNudge = () => {
       const start = main.scrollTop;
+      const amount = main.clientHeight * NUDGE_RATIO;
       isNudging = true;
       main.style.scrollSnapType = "none";
 
-      main.scrollTo({ top: start + NUDGE_AMOUNT, behavior: "smooth" });
+      main.scrollTo({ top: start + amount, behavior: "smooth" });
       backTimer = setTimeout(() => {
         main.scrollTo({ top: start, behavior: "smooth" });
         restoreTimer = setTimeout(() => {
