@@ -5,7 +5,7 @@ import { PortfolioExperience } from "./components/PortfolioExperience";
 import { Contact } from "./components/Contact";
 import { useInView } from "./hooks/useInView";
 
-const NUDGE_RATIO = 0.22;
+const NUDGE_RATIO = 0.30;
 const NUDGE_DURATION_MS = 900; // durée totale de l'aller-retour, en une seule animation continue
 
 function easeInOutSine(t: number) {
